@@ -1,21 +1,20 @@
-import { Canvas,useFrame } from '@react-three/fiber'
+import { Canvas,useFrame,  } from '@react-three/fiber'
 import { useRef, useState } from 'react'
 import { MeshDistortMaterial, MeshWobbleMaterial, OrbitControls } from '@react-three/drei'
 import './App.css'
-
+import NPC from './Npc'
 
 const Cube = ({position, color, size}) => {
     const ref = useRef();
-    // useFrame((state, delta) => {
-    //     ref.current.rotation.x += delta;
-    //     ref.current.rotation.y += delta;
-    //     ref.current.position.z = Math.sin(state.clock.elapsedTime) * 2.0;
-    // })
+    useFrame((state, delta) => {
+        // ref.current.position.x += delta;
+        ref.current.rotation.y += delta;
+    })
 
     return (
         <mesh position={position} ref={ref}>
             <boxGeometry args={size}/>
-            <MeshDistortMaterial color={color}/>
+            <meshStandardMaterial color={color}/>
         </mesh>
     )
 }
@@ -51,19 +50,18 @@ const App = () => {
      <Canvas>
         <directionalLight position={[1, -1, 2]} intensity={2}/>
         <ambientLight intensity={1}/>
+        <NPC position={[0, 1, 0]} size={[1, 1, 1]} />
 
-
-        <group position={[0, -1, 0]}>
-            <Cube position={[-2, 1, 2]} color='orange' size={[1, 1, 1]}/>
-            <Cube position={[2, 1, 2]} color='purple' size={[1, 1, 1]}/>
-        </group>
+        {/* <group position={[0, -1, 0]}>
+            <Cube position={[0, 1, 1]} color='orange' size={[1, 1, 1]}/>
+        </group> */}
 
         {/* <Cube position={[0, 0, 0]} color='orange' size={[1, 1, 1]}/> */}
         {/* <Sphere position={[0, 0, 0]}  args={[1, 30, 30]}/> */}
         {/* <Torus position={[0, 0, 0]} color='orange' args={[2, 0.2, 10, 100]}/> */}
 
 
-        <OrbitControls enableZoom={false}/>
+        {/* <OrbitControls enableZoom={false}/> */}
     </Canvas>
   )
 }
